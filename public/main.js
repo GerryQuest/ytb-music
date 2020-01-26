@@ -2,6 +2,7 @@ var enterHandler = function (e) {
     if (e.keyCode === 13) {
         console.log("Works");
         console.log(inputBox.value);
+        sendToServer(inputBox.value);
     }
 }
 
@@ -17,7 +18,11 @@ var sendToServer = function (value) {
             }
         }
     };
-    var host = "127.0.0.1";
-    xhr.open("post", host, true);
-    xhr.send(value);
+
+    xhr.open("post", "ytb-url", true);
+    var JsonURL = JSON.stringify({url:value});
+    xhr.setRequestHeader("Content-Type", "application/json" );
+    
+    //xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send(JsonURL);
 }
