@@ -1,7 +1,7 @@
 var express = require("express"),
     path = require("path"),
     bodyParser = require("body-parser"),
-    request = require("require"),
+    request = require("request"),
     fs = require("fs");
 
 var port = 3000; hostname = "127.0.0.1";
