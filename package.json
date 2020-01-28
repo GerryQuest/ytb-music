@@ -1,0 +1,23 @@
+{
+  "name": "ytb-music",
+  "version": "1.0.0",
+  "description": "Youtube audio",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GerryQuest/ytb-music.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GerryQuest/ytb-music/issues"
+  },
+  "homepage": "https://github.com/GerryQuest/ytb-music#readme",
+  "dependencies": {
+    "request": "^2.88.0"
+  }
+}

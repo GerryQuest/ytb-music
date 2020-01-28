@@ -1,8 +1,18 @@
+var validateURL = function (url) {
+    if (url.indexOf("youtube.com/watch?v=") > -1)
+        return true;
+
+    return false;
+};
+
 var enterHandler = function (e) {
     if (e.keyCode === 13) {
+        var url = inputBox.value;
         console.log("Works");
-        console.log(inputBox.value);
-        sendToServer(inputBox.value);
+        console.log(url);
+
+        if (validateURL(url))
+            sendToServer(url);
     }
 }
 
