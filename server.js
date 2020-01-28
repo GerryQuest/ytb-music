@@ -1,7 +1,8 @@
 var express = require("express"),
     path = require("path"),
     bodyParser = require("body-parser"),
-    request = require("require");
+    request = require("require"),
+    fs = require("fs");
 
 var port = 3000; hostname = "127.0.0.1";
 var server = express();
@@ -18,9 +19,23 @@ var validURL = function (url) {
     return valid;
 };
 
+var downloadPage = function (url) {
+
+    request(url, function (error, response, body) {
+        var file = path.resolve(__dirname, "youtubepage.html");
+        fs.writeFile(file, body, function (err) {
+            if (err)
+                throw err;
+
+            console.log("Created file");
+        });
+    });
+}
+
 server.post("/ytb-url", function (req, res) {
    //console.log(req.body.test); // Used for query string parameters;
    console.log(req.body.url);
+    downloadPage()
    //next();
 });
 
