@@ -30,7 +30,7 @@ exports.startDownload = async (ytbURL) => {
                 uri: request.url(),
                 resolveWithFullResponse: true
             }).then(response => {
-                let resHeader = response.headers() || "";
+                let resHeader = response.headers || "";
                 let reqType = requests.resourceType() || "";
 
                
