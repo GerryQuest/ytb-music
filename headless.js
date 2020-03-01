@@ -3,6 +3,12 @@ const request_client = require("request-promise-native");
 
 //https://www.youtube.com/watch?v=FEPFH-gz3wE
 
+
+var stopRequest = function (type) {
+    if (type === "image" || type === "stylesheet" || type === "font")
+        return true;
+};
+
 exports.startDownload = async (ytbURL) => {
     try {
         console.log("Starting Download...");
@@ -26,12 +32,19 @@ exports.startDownload = async (ytbURL) => {
         let requestFlag = false;
 
         page.on("request", request => {
+            console.log("FIRING REQUEST");
+            console.log(request.url());
+
+            // Abort any requests that are: images, stylesheets or fonts
+            if (stopRequest(request.resourceType()))
+                request.abort();
+
             request_client({
                 uri: request.url(),
                 resolveWithFullResponse: true
             }).then(response => {
                 let resHeader = response.headers || "";
-                let reqType = requests.resourceType() || "";
+                let reqType = request.resourceType() || "";
 
                
                 if (!requestFlag)   {
@@ -40,10 +53,10 @@ exports.startDownload = async (ytbURL) => {
                         requestFlag = true;
                         console.log("Header::", resHeader["content-type"]);
                         console.log("Requests URL::", request.url());
-                        requests.abort();
-
-                    } else if (reqType === "image" || reqType === "stylesheet" || reqType === "font") {
                         request.abort();
+
+                   // } else if (reqType === "image" || reqType === "stylesheet" || reqType === "font") {
+                        // request.abort();
                     } else {
                         request.continue();
                     }
