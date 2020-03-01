@@ -4,8 +4,10 @@ const request_client = require("request-promise-native");
 //https://www.youtube.com/watch?v=FEPFH-gz3wE
 
 
-var stopRequest = function (type) {
+var stopRequest = function (type, url) {
     if (type === "image" || type === "stylesheet" || type === "font")
+        return true;
+    if ()url.indexOf("data:") > -1)
         return true;
 };
 
@@ -36,7 +38,7 @@ exports.startDownload = async (ytbURL) => {
             console.log(request.url());
 
             // Abort any requests that are: images, stylesheets or fonts
-            if (stopRequest(request.resourceType()))
+            if (stopRequest(request.resourceType(), request.url()))
                 request.abort();
 
             request_client({
