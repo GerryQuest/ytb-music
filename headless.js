@@ -58,19 +58,16 @@ exports.startDownload = async (ytbURL) => {
                    // } else if (reqType === "image" || reqType === "stylesheet" || reqType === "font") {
                         // request.abort();
                     } else {
-                        request.continue();
+                        request.continue().catch((error) => {console.log("Continue Error:", error)});
                     }
     
                     result.push({resHeader, reqType});
                 } 
 
-                
-
-                
 
             }).catch(error => {
                 console.log(error);
-                request.abort();
+                request.abort().catch((error) => {console.log("Request Error:", error)});
             });
         });
 
