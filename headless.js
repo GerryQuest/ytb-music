@@ -7,7 +7,7 @@ const request_client = require("request-promise-native");
 var stopRequest = function (type, url) {
     if (type === "image" || type === "stylesheet" || type === "font")
         return true;
-    if ()url.indexOf("data:") > -1)
+    if (url.indexOf("data:") > -1)
         return true;
 };
 
