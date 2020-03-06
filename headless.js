@@ -24,6 +24,10 @@ var checkForAudioWebm = function (url) {
     return (url.indexOf("audio%2Fwebm") > -1);
 };
 
+var checkForStats = function (url) {
+    return (url.indexOf("/api/stats/qoe?event=streamingstats") > -1);
+};
+
 
 exports.startDownload = async (ytbURL) => {
     try {
@@ -46,6 +50,7 @@ exports.startDownload = async (ytbURL) => {
 
         let closeBrowser = async () => await browser.close();
         let requestFlag = false;
+        let requestURLs = [];
 
         
             page.on("request", request => {
@@ -54,12 +59,13 @@ exports.startDownload = async (ytbURL) => {
                     console.log(request.url());
                     console.log("CONTENT-TYPE: " + request.headers["content-type"]);
                     console.log("Has WEBM: ", checkForAudioWebm(request.url()));
-
+                    
                     
                     // Abort any requests that are: images, stylesheets or fonts
                     if (stopRequest(request.resourceType(), request.url()))
                         request.abort();
                         
+                    requestURLs.push(request.url());
 
                     request_client({
                         uri: request.url(),
