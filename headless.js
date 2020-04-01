@@ -50,10 +50,12 @@ exports.startDownload = async (ytbURL) => {
 
         let closeBrowser = async () => await browser.close();
         let requestFlag = false;
+        let statsFound = false;
         let requestURLs = [];
+        let found = "";
 
         
-            page.on("request", request => {
+            page.on("request", (request) => {
                 if (!requestFlag)   {
                     console.log("FIRING REQUEST");
                     console.log(request.url());
@@ -64,6 +66,22 @@ exports.startDownload = async (ytbURL) => {
                     // Abort any requests that are: images, stylesheets or fonts
                     if (stopRequest(request.resourceType(), request.url()))
                         request.abort();
+
+                    if (statsFound && checkForAudioWebm(request.url())) {
+                        console.log("STATS FOUND:");
+                        found = request.url();
+                        closeBrowser();
+                        console.log("URL: " + request.url());
+                        
+                        //return request.url();
+                        
+                        
+                    }
+                        
+
+                    if (!statsFound && checkForStats(request.url()))
+                        statsFound = true;
+
                         
                     requestURLs.push(request.url());
 
@@ -73,9 +91,6 @@ exports.startDownload = async (ytbURL) => {
                     }).then(response => {
                         let resHeader = response.headers || "";
                         let reqType = request.resourceType() || "";
-
-                    
-                        
 
                             if (resHeader["content-type"] && 
                                 (resHeader["content-type"].indexOf("audio/webm") > -1) /*&& response.url().indexOf("r6---") > -1*/) {
@@ -110,14 +125,15 @@ exports.startDownload = async (ytbURL) => {
 
         
         await browser.close();
-
-
+        
+        console.log("FOUND: ", found);
+        return Promise.resolve(found);
     } catch (error) {
         console.log(error);
     }
     
 
-
+    
 
 
 };
