@@ -30,6 +30,7 @@ var checkForStats = function (url) {
 
 
 exports.startDownload = async (ytbURL) => {
+    let found = "";
     try {
         console.log("Starting Download...");
         console.log("YTB: " + ytbURL);
@@ -52,7 +53,8 @@ exports.startDownload = async (ytbURL) => {
         let requestFlag = false;
         let statsFound = false;
         let requestURLs = [];
-        let found = "";
+        //let found = "";
+        // let webmURL = "";
 
         
             page.on("request", (request) => {
@@ -73,9 +75,9 @@ exports.startDownload = async (ytbURL) => {
                         closeBrowser();
                         console.log("URL: " + request.url());
                         
+                        
                         //return request.url();
-                        
-                        
+  
                     }
                         
 
@@ -118,7 +120,7 @@ exports.startDownload = async (ytbURL) => {
                 }
              });
 
-             console.log(ytbURL);
+            //  console.log(ytbURL);
             await page.goto(ytbURL, {waitUntil: "networkidle0"});
 
         
@@ -126,13 +128,13 @@ exports.startDownload = async (ytbURL) => {
         
         await browser.close();
         
-        console.log("FOUND: ", found);
+        // console.log("FOUND: ", found);
         return Promise.resolve(found);
     } catch (error) {
         console.log(error);
     }
     
-
+    return await found;
     
 
 

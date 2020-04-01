@@ -33,12 +33,16 @@ var downloadPage = function (url) {
     });
 }
 
+var modifyURL = function (url) {
+    return url.substring(0, url.lastIndexOf("&cpn="));
+}
+
 server.post("/ytb-url", async function (req, res) {
    //console.log(req.body.test); // Used for query string parameters;
    console.log(req.body.url);
     // downloadPage()
     let url = await hdless.startDownload(req.body.url);
-    console.log("DEBUGGGGG: ", url);
+    console.log("DEBUGGGGG: ", modifyURL(await url));
    //next();
 });
 
