@@ -1,3 +1,3 @@
 try {
-  console.log("HEY");
+  console.log("HEY TEST");
 } catch (error) {}
